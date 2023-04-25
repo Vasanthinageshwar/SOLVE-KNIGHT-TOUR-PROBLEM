@@ -1,0 +1,68 @@
+CODE:
+
+#include <stdio.h>;
+#define N 8
+int solveKTUtil(int i, int j, int step_count, int sol[N][N],int x_move[], int
+y_move[]);
+int IS_VALID(int i, int j, int sol[N][N])
+{
+return (i &gt;= 0 &amp;&amp; i&lt; N &amp;&amp; j &gt;= 0 &amp;&amp; j &lt; N &amp;&amp; sol[i][j] == -1);
+}
+void printSolution(int sol[N][N])
+{
+int i,j;
+for (i = 0; i&lt; N; i++) {
+for (j = 0; j &lt; N; j++)
+printf(&quot; %2d &quot;, sol[i][j]);
+printf(&quot;\n&quot;);
+}
+}
+int KNIGHT_TOUR()
+{
+int sol[N][N];
+int i,j;
+for (i = 0; i &lt; N; i++)
+for (j = 0; j &lt; N; j++)
+sol[i][j] = -1;
+
+int x_move[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
+int y_move[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
+sol[0][0] = 0;
+if (solveKNIGHT_TOUR(0, 0, 1, sol, x_move, y_move) == 0) {
+printf(&quot;Solution does not exist&quot;);
+return 0;
+}
+else
+printSolution(sol);
+
+return 1;
+}
+int solveKNIGHT_TOUR(int i, int j, int step_count, int sol[N][N],int x_move[N],
+int y_move[N])
+{
+int k, next_i, next_j;
+if (step_count == N * N)
+return 1;
+for (k = 0; k &lt; 8; k++) {
+next_i = i + x_move[k];
+next_j = j + y_move[k];
+if (IS_VALID(next_i, next_j, sol)) {
+sol[next_i][next_j] = step_count;
+if (solveKNIGHT_TOUR(next_i, next_j,step_count + 1,
+
+sol,x_move, y_move)
+
+== 1)
+return 1;
+else
+sol[next_i][next_j] = -1;
+
+}
+}
+return 0;
+}
+int main()
+{
+KNIGHT_TOUR();
+return 0;
+}
